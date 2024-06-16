@@ -37,7 +37,9 @@ class MealsScreen extends StatelessWidget {
     );
     if (availableMeals.isNotEmpty) {
       content = ListView.builder(itemCount: availableMeals.length,itemBuilder: (context, index) {
-        return Text(availableMeals[index].title);
+        return Text(availableMeals[index].title,style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+          color: Colors.white
+        ),);
       });
     }
     return Scaffold(
