@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:meals_app/screens/screen_categories.dart';
+
+import 'package:meals_app/screens/tabs.dart';
 import 'main.dart';
 
 class App extends StatelessWidget {
@@ -10,7 +11,7 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: 'Meals App',
       debugShowCheckedModeBanner: false,
-      home:const CategoriesScreen(),
+      home:const TabsScreen(),
       theme: theme,
     );
   }
