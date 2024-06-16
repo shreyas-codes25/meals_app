@@ -8,9 +8,9 @@ final theme = ThemeData(
     brightness: Brightness.dark,
   ),
   textTheme: GoogleFonts.latoTextTheme(),
+
 );
 
 void main(){
   runApp(const App());
-}
 }
