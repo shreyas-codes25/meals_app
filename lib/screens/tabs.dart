@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:meals_app/models/meal_model.dart';
 import 'package:meals_app/screens/filters.dart';
@@ -6,7 +5,12 @@ import 'package:meals_app/screens/screen_categories.dart';
 import 'package:meals_app/screens/screen_meals.dart';
 import 'package:meals_app/widgets/main_drawer.dart';
 
-
+const Map<Filter,bool> kInitialFilters = {
+  Filter.glutenFree: false,
+  Filter.lactoseFree: false,
+  Filter.vegetarian: false,
+  Filter.vegan: false
+};
 
 class TabsScreen extends StatefulWidget {
   const TabsScreen({super.key});
@@ -16,6 +20,7 @@ class TabsScreen extends StatefulWidget {
 }
 
 class _TabsScreenState extends State<TabsScreen> {
+  Map<Filter,bool> _selectedFilters = kInitialFilters;
   final List<Meal> _favMeals = [];
 
   void _showInfoMessage(String message) {
@@ -49,10 +54,17 @@ class _TabsScreenState extends State<TabsScreen> {
     });
   }
 
-  void _setScreen(String identifier) {
+  void _setScreen(String identifier) async {
     Navigator.of(context).pop();
     if (identifier == "filters") {
-      Navigator.of(context).push(MaterialPageRoute(builder: (ctx) =>const FilterScreen()));
+      final result = await Navigator.of(context).push<Map<Filter, bool>>(
+          MaterialPageRoute(builder: (ctx) => const FilterScreen()
+          )
+      );
+      setState(() {
+        _selectedFilters = result ?? kInitialFilters;
+      });
+
     }
   }
 
