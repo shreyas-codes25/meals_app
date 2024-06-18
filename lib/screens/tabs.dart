@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:meals_app/data/dummy_data.dart';
 import 'package:meals_app/models/meal_model.dart';
 import 'package:meals_app/screens/filters.dart';
 import 'package:meals_app/screens/screen_categories.dart';
 import 'package:meals_app/screens/screen_meals.dart';
 import 'package:meals_app/widgets/main_drawer.dart';
 
-const Map<Filter,bool> kInitialFilters = {
+const Map<Filter, bool> kInitialFilters = {
   Filter.glutenFree: false,
   Filter.lactoseFree: false,
   Filter.vegetarian: false,
@@ -20,7 +21,7 @@ class TabsScreen extends StatefulWidget {
 }
 
 class _TabsScreenState extends State<TabsScreen> {
-  Map<Filter,bool> _selectedFilters = kInitialFilters;
+  Map<Filter, bool> _selectedFilters = kInitialFilters;
   final List<Meal> _favMeals = [];
 
   void _showInfoMessage(String message) {
@@ -58,19 +59,33 @@ class _TabsScreenState extends State<TabsScreen> {
     Navigator.of(context).pop();
     if (identifier == "filters") {
       final result = await Navigator.of(context).push<Map<Filter, bool>>(
-          MaterialPageRoute(builder: (ctx) => const FilterScreen()
-          )
-      );
+          MaterialPageRoute(builder: (ctx) => FilterScreen(currentFilters: _selectedFilters,)));
       setState(() {
         _selectedFilters = result ?? kInitialFilters;
       });
-
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final availableMeals = dummyMeals.where((meal) {
+      if (_selectedFilters[Filter.glutenFree]! && !meal.isGlutenFree) {
+        return false;
+      }
+      if (_selectedFilters[Filter.lactoseFree]! && !meal.isLactoseFree) {
+        return false;
+      }
+      if (_selectedFilters[Filter.vegan]! && !meal.isVegan) {
+        return false;
+      }
+      if (_selectedFilters[Filter.vegetarian]! && !meal.isVegetarian) {
+        return false;
+      }
+      return true;
+    }).toList();
+    print(availableMeals);
     Widget activePage = CategoriesScreen(
+      availableMeals: availableMeals,
       onTogFav: _togFavMeals,
     );
     var activePageTitle = "Categories";
