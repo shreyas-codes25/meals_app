@@ -6,18 +6,18 @@ import 'meal_details.dart';
 
 class MealsScreen extends StatelessWidget {
   const MealsScreen(
-      {required this.onTogFav,
+      {
       this.title,
       required this.availableMeals,
       super.key});
 
-  final void Function(Meal meal) onTogFav;
+
   final String? title;
   final List<Meal> availableMeals;
 
   void selectMeal(BuildContext context, Meal meal) {
     Navigator.of(context).push(MaterialPageRoute(
-        builder: (ctx) => MealDetailsScreen(onTogFav: onTogFav, meal: meal)));
+        builder: (ctx) => MealDetailsScreen( meal: meal)));
   }
 
   // ListView.builder(itemBuilder: (context, index) {
