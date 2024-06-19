@@ -49,6 +49,7 @@ class _TabsScreenState extends State<TabsScreen> {
   }
 
   int _sltpageindex = 0;
+
   void _sltpage(int index) {
     setState(() {
       _sltpageindex = index;
@@ -58,8 +59,11 @@ class _TabsScreenState extends State<TabsScreen> {
   void _setScreen(String identifier) async {
     Navigator.of(context).pop();
     if (identifier == "filters") {
-      final result = await Navigator.of(context).push<Map<Filter, bool>>(
-          MaterialPageRoute(builder: (ctx) => FilterScreen(currentFilters: _selectedFilters,)));
+      final result =
+          await Navigator.of(context).push<Map<Filter, bool>>(MaterialPageRoute(
+              builder: (ctx) => FilterScreen(
+                    currentFilters: _selectedFilters,
+                  )));
       setState(() {
         _selectedFilters = result ?? kInitialFilters;
       });

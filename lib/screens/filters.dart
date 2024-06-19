@@ -1,27 +1,23 @@
-
 import 'package:flutter/material.dart';
 
-
 class FilterScreen extends StatefulWidget {
-  const FilterScreen({required this.currentFilters,super.key});
+  const FilterScreen({required this.currentFilters, super.key});
 
-  final Map<Filter,bool> currentFilters;
+  final Map<Filter, bool> currentFilters;
+
   @override
   State<FilterScreen> createState() => _FilterScreenState();
 }
-enum Filter{
-  glutenFree,
-  lactoseFree,
-  vegetarian,
-  vegan
-}
+
+enum Filter { glutenFree, lactoseFree, vegetarian, vegan }
+
 class _FilterScreenState extends State<FilterScreen> {
   var _glutenFree = false;
   var _vegan = false;
   var _vegetarian = false;
   var _lactoseFree = false;
 
-@override
+  @override
   void initState() {
     _glutenFree = widget.currentFilters[Filter.glutenFree]!;
     _lactoseFree = widget.currentFilters[Filter.lactoseFree]!;
@@ -29,6 +25,7 @@ class _FilterScreenState extends State<FilterScreen> {
     _vegan = widget.currentFilters[Filter.vegan]!;
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,22 +38,20 @@ class _FilterScreenState extends State<FilterScreen> {
       ),
       body: PopScope(
         canPop: false,
-        onPopInvoked: (bool didPop)  {
-          if(didPop) return;
+        onPopInvoked: (bool didPop) {
+          if (didPop) return;
           Navigator.of(context).pop({
             Filter.glutenFree: _glutenFree,
             Filter.lactoseFree: _lactoseFree,
             Filter.vegetarian: _vegetarian,
             Filter.vegan: _vegan,
           });
-
         },
-
         child: Column(
           children: [
             SwitchListTile(
               value: _glutenFree,
-              onChanged: (isChecked){
+              onChanged: (isChecked) {
                 setState(() {
                   _glutenFree = isChecked;
                 });
@@ -68,25 +63,22 @@ class _FilterScreenState extends State<FilterScreen> {
               ),
               subtitle: Text(
                 "only include gluten-free meals",
-
-
                 style: Theme.of(context).textTheme.titleMedium!.copyWith(
                     color: Theme.of(context).colorScheme.onSecondaryContainer),
               ),
-
               contentPadding: const EdgeInsets.only(left: 34, right: 22),
-            inactiveThumbColor: Colors.red,
-
-              activeThumbImage:const AssetImage("assets/images/gluten-free.png"),
-
+              inactiveThumbColor: Colors.red,
+              activeThumbImage:
+                  const AssetImage("assets/images/gluten-free.png"),
             ),
             SwitchListTile(
               inactiveThumbColor: Colors.red,
-              activeThumbImage:const AssetImage("assets/images/lactose-free.png"),
+              activeThumbImage:
+                  const AssetImage("assets/images/lactose-free.png"),
               value: _lactoseFree,
-              onChanged: (isChecked){
+              onChanged: (isChecked) {
                 setState(() {
-                  _lactoseFree= isChecked;
+                  _lactoseFree = isChecked;
                 });
               },
               title: Text(
@@ -99,14 +91,13 @@ class _FilterScreenState extends State<FilterScreen> {
                 style: Theme.of(context).textTheme.titleMedium!.copyWith(
                     color: Theme.of(context).colorScheme.onSecondaryContainer),
               ),
-
               contentPadding: const EdgeInsets.only(left: 34, right: 22),
             ),
             SwitchListTile(
               inactiveThumbColor: Colors.red,
-              activeThumbImage:const AssetImage("assets/images/vegan.png"),
+              activeThumbImage: const AssetImage("assets/images/vegan.png"),
               value: _vegan,
-              onChanged: (isChecked){
+              onChanged: (isChecked) {
                 setState(() {
                   _vegan = isChecked;
                 });
@@ -121,16 +112,16 @@ class _FilterScreenState extends State<FilterScreen> {
                 style: Theme.of(context).textTheme.titleMedium!.copyWith(
                     color: Theme.of(context).colorScheme.onSecondaryContainer),
               ),
-
               contentPadding: const EdgeInsets.only(left: 34, right: 22),
             ),
             SwitchListTile(
               inactiveThumbColor: Colors.red,
-              activeThumbImage:const AssetImage("assets/images/vegetarian.png"),
+              activeThumbImage:
+                  const AssetImage("assets/images/vegetarian.png"),
               value: _vegetarian,
-              onChanged: (isChecked){
+              onChanged: (isChecked) {
                 setState(() {
-                  _vegetarian= isChecked;
+                  _vegetarian = isChecked;
                 });
               },
               title: Text(

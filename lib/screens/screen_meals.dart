@@ -14,6 +14,7 @@ class MealsScreen extends StatelessWidget {
   final void Function(Meal meal) onTogFav;
   final String? title;
   final List<Meal> availableMeals;
+
   void selectMeal(BuildContext context, Meal meal) {
     Navigator.of(context).push(MaterialPageRoute(
         builder: (ctx) => MealDetailsScreen(onTogFav: onTogFav, meal: meal)));
