@@ -41,7 +41,7 @@ class MealDetailsScreen extends ConsumerWidget {
                     child: child,
                   );
                 },
-                duration: const Duration(milliseconds: 300 ),
+                duration: const Duration(milliseconds: 300),
                 child: Icon(
                   isFavorite ? Icons.star : Icons.star_border,
                   key: ValueKey(isFavorite),
