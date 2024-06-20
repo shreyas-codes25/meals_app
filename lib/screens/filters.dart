@@ -1,33 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:meals_app/provider/filters_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class FilterScreen extends StatefulWidget {
-  const FilterScreen({required this.currentFilters, super.key});
+class FilterScreen extends ConsumerWidget {
+  const FilterScreen({super.key});
 
-  final Map<Filter, bool> currentFilters;
 
-  @override
-  State<FilterScreen> createState() => _FilterScreenState();
-}
-
-enum Filter { glutenFree, lactoseFree, vegetarian, vegan }
-
-class _FilterScreenState extends State<FilterScreen> {
-  var _glutenFree = false;
-  var _vegan = false;
-  var _vegetarian = false;
-  var _lactoseFree = false;
 
   @override
-  void initState() {
-    _glutenFree = widget.currentFilters[Filter.glutenFree]!;
-    _lactoseFree = widget.currentFilters[Filter.lactoseFree]!;
-    _vegetarian = widget.currentFilters[Filter.vegetarian]!;
-    _vegan = widget.currentFilters[Filter.vegan]!;
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context,WidgetRef ref) {
+    final activeFilters = ref.watch(filtersProvider);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -36,25 +18,12 @@ class _FilterScreenState extends State<FilterScreen> {
               color: Theme.of(context).colorScheme.onSecondaryContainer),
         ),
       ),
-      body: PopScope(
-        canPop: false,
-        onPopInvoked: (bool didPop) {
-          if (didPop) return;
-          Navigator.of(context).pop({
-            Filter.glutenFree: _glutenFree,
-            Filter.lactoseFree: _lactoseFree,
-            Filter.vegetarian: _vegetarian,
-            Filter.vegan: _vegan,
-          });
-        },
-        child: Column(
+      body:  Column(
           children: [
             SwitchListTile(
-              value: _glutenFree,
+              value: activeFilters[Filter.glutenFree]!,
               onChanged: (isChecked) {
-                setState(() {
-                  _glutenFree = isChecked;
-                });
+                ref.read(filtersProvider.notifier).setFilter(Filter.glutenFree, isChecked);
               },
               title: Text(
                 "Gluten-free",
@@ -75,11 +44,9 @@ class _FilterScreenState extends State<FilterScreen> {
               inactiveThumbColor: Colors.red,
               activeThumbImage:
                   const AssetImage("assets/images/lactose-free.png"),
-              value: _lactoseFree,
+              value: activeFilters[Filter.lactoseFree]!,
               onChanged: (isChecked) {
-                setState(() {
-                  _lactoseFree = isChecked;
-                });
+                ref.read(filtersProvider.notifier).setFilter(Filter.lactoseFree, isChecked);
               },
               title: Text(
                 "Lactose-free",
@@ -96,11 +63,9 @@ class _FilterScreenState extends State<FilterScreen> {
             SwitchListTile(
               inactiveThumbColor: Colors.red,
               activeThumbImage: const AssetImage("assets/images/vegan.png"),
-              value: _vegan,
+              value: activeFilters[Filter.vegan]!,
               onChanged: (isChecked) {
-                setState(() {
-                  _vegan = isChecked;
-                });
+                ref.read(filtersProvider.notifier).setFilter(Filter.vegan,isChecked);
               },
               title: Text(
                 "Vegan",
@@ -118,11 +83,9 @@ class _FilterScreenState extends State<FilterScreen> {
               inactiveThumbColor: Colors.red,
               activeThumbImage:
                   const AssetImage("assets/images/vegetarian.png"),
-              value: _vegetarian,
+              value: activeFilters[Filter.vegetarian]!,
               onChanged: (isChecked) {
-                setState(() {
-                  _vegetarian = isChecked;
-                });
+                ref.read(filtersProvider.notifier).setFilter(Filter.vegetarian, isChecked);
               },
               title: Text(
                 "Vegetarian",
@@ -138,7 +101,7 @@ class _FilterScreenState extends State<FilterScreen> {
             ),
           ],
         ),
-      ),
-    );
+      );
+
   }
 }
